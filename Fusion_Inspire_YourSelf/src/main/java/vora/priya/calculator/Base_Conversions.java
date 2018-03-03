@@ -15,10 +15,12 @@ public class Base_Conversions {
 		System.out.println(conversion.Decimal_To_Hexdecimal(225));
 		System.out.println(conversion.Decimal_To_Octal(33.0));
 		System.out.println(conversion.Binary_To_Decimal("10000"));
-		// System.out.println(conversion.Binary_To_Octal("10000"));
 		// conversion.Binary_To_Decimal("7");
 		// System.out.println(conversion.separateOctects("011111000000"));
 		System.out.println(conversion.Binary_To_Hexadecimal("011001001110"));
+		System.out.println(conversion.Binary_To_Octal("1001001"));
+		conversion.Hexadecimal_To_Decimal("64E");
+		//Change each methods to lowercasse
 	}
 
 	public String Decimal_To_Binary(Double value) {
@@ -147,21 +149,33 @@ public class Base_Conversions {
 	}
 
 	public String Binary_To_Octal(String sequence) {
-		int count = sequence.length();
-		sequence = validBinaryFormat(count, sequence);
-		System.out.println("Sequence : " + sequence);
-		int countOfNumbers = 0;
-		while (countOfNumbers != sequence.length()) {
-			if (true) {
-
-			}
-			countOfNumbers++;
+		conversionType = conversionType.OCTAL;
+		sequence = separateOctects(sequence);
+		String[] octets = sequence.split(" ");
+		String[] valueList = new String[octets.length];
+		int count = 0;
+		for (String octet : octets) {
+			String hexValue = Decimal_To_Hexdecimal(Binary_To_Decimal(octet));
+			valueList[count] = hexValue;
+			count++;
 		}
-		return null;
+		String hexValue = "";
+		for (String string : valueList) {
+			if(string != null) { 				
+				hexValue += string;
+			}
+		}
+		
+		String decimalOfHex = Hexadecimal_To_Decimal(hexValue);
+		String octalValue = Decimal_To_Octal((double)Integer.parseInt(decimalOfHex));
+		
+		return validBinaryFormat(octalValue.length(),octalValue);
 	}
 
-	public void Hexadecimal_To_Decimal() {
 
+	public String Hexadecimal_To_Decimal(String hexValue) {
+		int decimal = Integer.parseInt(hexValue.trim(), 16);
+		return "" + decimal;
 	}
 
 	public void Hexadecimal_To_Binary() {
