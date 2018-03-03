@@ -1,5 +1,8 @@
 package vora.priya.calculator;
 
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 import vora.priya.enums.Programming_Conversions;
 
 public class Base_Conversions {
@@ -7,54 +10,81 @@ public class Base_Conversions {
 
 	public static void main(String[] args) {
 		Base_Conversions conversion = new Base_Conversions();
-		System.out.println(conversion.Decimal_To_Binary(78.0));
+		System.out.println(conversion.Decimal_To_Binary(7.0));
+		System.out.println(conversion.Decimal_To_Hexdecimal(7.0));
+		System.out.println(conversion.Decimal_To_Octal(33.0));
 	}
 
 	public String Decimal_To_Binary(Double value) {
 		conversionType = Programming_Conversions.BINARY;
+		return Decimal_To_BaseHelper(value, conversionType);
+	}
+
+	private Integer getRemainderBinary(int value) {
+		Integer answer = (int) (value % conversionType.getBaseNumber());
+		return answer;
+	}
+
+	private String Decimal_To_BaseHelper(Double value, Programming_Conversions conversionType) {
 		int leftOver = Integer.MAX_VALUE;
 		Integer remainder;
 		Integer newValue = (int) Math.floor(value);
-		String binarySequence = "";
-		String[] sequence = { "0", "0", "0", "0", "0", "0", "0", "0" };
+		String sequence = "";
 		int val = newValue;
-		int count = 7;
+
+		Stack<Integer> binaryStack = new Stack<Integer>();
+
 		while (leftOver != 0) {
 			leftOver = (int) Math.floor(newValue);
 			remainder = getRemainderBinary(leftOver);
 			if (leftOver == 0) {
 				break;
 			}
-			sequence[count] = "" + remainder;
-			count--;
+			binaryStack.push(remainder);
 			newValue = (int) (val / conversionType.getBaseNumber());
 			val = newValue;
 		}
-		for (String octet : sequence) {
-			binarySequence += octet;
+		int count = 0;
+		try {
+			while ((!binaryStack.isEmpty())) {
+				sequence += binaryStack.peek();
+				binaryStack.pop();
+				count++;
+			}
+		} catch (EmptyStackException e) {
+			System.out.println("empty stack");
 		}
-		return binarySequence;
+		if (conversionType == Programming_Conversions.BINARY) {
+			if (count % 4 != 0) {
+				while (count % 4 != 0) {
+					String temp = sequence;
+					sequence = "";
+					sequence += "0";
+					sequence += temp;
+					count++;
+				}
+			}
+		}
+		return sequence;
 	}
 
-	public Integer getRemainderBinary(int value) {
-		Integer answer = (value % 2);
-		return answer;
+	public String Decimal_To_Hexdecimal(Double value) {
+		conversionType = Programming_Conversions.HEXADECIMAL;
+		return Decimal_To_BaseHelper(value, conversionType);
 	}
 
-	public void Decimal_To_Hexdecimal() {
-
+	public String Decimal_To_Octal(Double value) {
+		conversionType = Programming_Conversions.OCTAL;
+		return Decimal_To_BaseHelper(value, conversionType);
 	}
 
-	public void Decimal_To_Octal() {
-
-	}
-
-	public void Binary_To_Decimal() {
+	
+	public void Binary_To_Decimal(Double value) {
 
 	}
 
 	public void Binary_To_Hexadecimal() {
-
+		
 	}
 
 	public void Binary_To_Octal() {

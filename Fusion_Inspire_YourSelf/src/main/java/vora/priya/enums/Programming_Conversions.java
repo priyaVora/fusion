@@ -1,7 +1,7 @@
 package vora.priya.enums;
 
 public enum Programming_Conversions {
-	BINARY(2.0), DECIMAL(10.0), HEXADECIMAL(6.0), OCTAL(8.0);
+	BINARY(2.0), DECIMAL(10.0), HEXADECIMAL(16.0), OCTAL(8.0);
 
 	private Double baseNumber;
 
