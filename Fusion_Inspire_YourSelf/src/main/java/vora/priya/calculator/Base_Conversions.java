@@ -1,6 +1,7 @@
 package vora.priya.calculator;
 
 import java.util.EmptyStackException;
+import java.util.Iterator;
 import java.util.Stack;
 
 import vora.priya.enums.Programming_Conversions;
@@ -11,10 +12,13 @@ public class Base_Conversions {
 	public static void main(String[] args) {
 		Base_Conversions conversion = new Base_Conversions();
 		System.out.println(conversion.Decimal_To_Binary(7.0));
-		System.out.println(conversion.Decimal_To_Hexdecimal(7.0));
+		System.out.println(conversion.Decimal_To_Hexdecimal(225));
 		System.out.println(conversion.Decimal_To_Octal(33.0));
 		System.out.println(conversion.Binary_To_Decimal("10000"));
+		// System.out.println(conversion.Binary_To_Octal("10000"));
 		// conversion.Binary_To_Decimal("7");
+		// System.out.println(conversion.separateOctects("011111000000"));
+		System.out.println(conversion.Binary_To_Hexadecimal("011001001110"));
 	}
 
 	public String Decimal_To_Binary(Double value) {
@@ -62,9 +66,16 @@ public class Base_Conversions {
 		return sequence;
 	}
 
-	public String Decimal_To_Hexdecimal(Double value) {
+	public String Decimal_To_Hexdecimal(int value) {
 		conversionType = Programming_Conversions.HEXADECIMAL;
-		return Decimal_To_BaseHelper(value, conversionType);
+		String answerString = Integer.toHexString(value);
+		char[] list = answerString.toCharArray();
+		answerString = "";
+		for (char c : list) {
+			c = Character.toUpperCase(c);
+			answerString += c;
+		}
+		return answerString;
 	}
 
 	public String Decimal_To_Octal(Double value) {
@@ -85,14 +96,33 @@ public class Base_Conversions {
 		return sequence;
 	}
 
+	private String separateOctects(String sequence) {
+		int count = sequence.length();
+		sequence = validBinaryFormat(count, sequence);
+		String updatedSeq = "";
+		char[] list = sequence.toCharArray();
+		for (int i = 0; i < list.length; i++) {
+			if (i % 4 != 0) {
+				updatedSeq += list[i];
+			} else {
+				if (i != 0) {
+					updatedSeq += " ";
+					updatedSeq += list[i];
+				} else {
+					updatedSeq += list[i];
+				}
+			}
+		}
+		return updatedSeq;
+	}
+
 	public Integer Binary_To_Decimal(String sequence) {
 		int count = sequence.length();
 		sequence = validBinaryFormat(count, sequence);
 		char[] seqChar = sequence.toCharArray();
-		System.out.println(seqChar.length);
 		Integer decimalValue = 0;
 		int power = 0;
-		for (int i = seqChar.length - 1; i > 0; i--) {
+		for (int i = seqChar.length - 1; i >= 0; i--) {
 			if (seqChar[i] == '1') {
 				decimalValue += (int) Math.pow(2, power);
 			}
@@ -101,12 +131,33 @@ public class Base_Conversions {
 		return decimalValue;
 	}
 
-	public void Binary_To_Hexadecimal() {
-
+	public String Binary_To_Hexadecimal(String sequence) {
+		sequence = separateOctects(sequence);
+		String[] octets = sequence.split(" ");
+		String answer = "";
+		for (String octet : octets) {
+			int decimalValue = Binary_To_Decimal(octet);
+			answer += Decimal_To_Hexdecimal(decimalValue);
+		}
+		return answer;
 	}
 
-	public void Binary_To_Octal() {
+	public String convertDigitTo_HexDigit() {
+		return null;
+	}
 
+	public String Binary_To_Octal(String sequence) {
+		int count = sequence.length();
+		sequence = validBinaryFormat(count, sequence);
+		System.out.println("Sequence : " + sequence);
+		int countOfNumbers = 0;
+		while (countOfNumbers != sequence.length()) {
+			if (true) {
+
+			}
+			countOfNumbers++;
+		}
+		return null;
 	}
 
 	public void Hexadecimal_To_Decimal() {
