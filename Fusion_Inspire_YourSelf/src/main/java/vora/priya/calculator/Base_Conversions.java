@@ -20,6 +20,7 @@ public class Base_Conversions {
 		System.out.println(conversion.Binary_To_Hexadecimal("011001001110"));
 		System.out.println(conversion.Binary_To_Octal("1001001"));
 		conversion.Hexadecimal_To_Decimal("64E");
+		System.out.println(conversion.Hexadecimal_To_Binary("F"));
 		//Change each methods to lowercasse
 	}
 
@@ -172,18 +173,20 @@ public class Base_Conversions {
 		return validBinaryFormat(octalValue.length(),octalValue);
 	}
 
-
 	public String Hexadecimal_To_Decimal(String hexValue) {
 		int decimal = Integer.parseInt(hexValue.trim(), 16);
 		return "" + decimal;
 	}
 
-	public void Hexadecimal_To_Binary() {
-
+	public String Hexadecimal_To_Binary(String hexValue) {
+		String decimalSeq = Hexadecimal_To_Decimal(hexValue);
+		Double decimal = (double) Integer.parseInt(decimalSeq);
+		String binary = Decimal_To_Binary(decimal);
+		return binary;
 	}
 
 	public void Octal_To_Decimal() {
-
+		
 	}
 
 	public void Octal_To_Binary() {
