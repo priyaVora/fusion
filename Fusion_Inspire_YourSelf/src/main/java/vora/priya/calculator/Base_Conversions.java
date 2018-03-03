@@ -13,6 +13,8 @@ public class Base_Conversions {
 		System.out.println(conversion.Decimal_To_Binary(7.0));
 		System.out.println(conversion.Decimal_To_Hexdecimal(7.0));
 		System.out.println(conversion.Decimal_To_Octal(33.0));
+		System.out.println(conversion.Binary_To_Decimal("10000"));
+		// conversion.Binary_To_Decimal("7");
 	}
 
 	public String Decimal_To_Binary(Double value) {
@@ -55,15 +57,7 @@ public class Base_Conversions {
 			System.out.println("empty stack");
 		}
 		if (conversionType == Programming_Conversions.BINARY) {
-			if (count % 4 != 0) {
-				while (count % 4 != 0) {
-					String temp = sequence;
-					sequence = "";
-					sequence += "0";
-					sequence += temp;
-					count++;
-				}
-			}
+			sequence = validBinaryFormat(count, sequence);
 		}
 		return sequence;
 	}
@@ -78,13 +72,37 @@ public class Base_Conversions {
 		return Decimal_To_BaseHelper(value, conversionType);
 	}
 
-	
-	public void Binary_To_Decimal(Double value) {
+	public String validBinaryFormat(int count, String sequence) {
+		if (count % 4 != 0) {
+			while (count % 4 != 0) {
+				String temp = sequence;
+				sequence = "";
+				sequence += "0";
+				sequence += temp;
+				count++;
+			}
+		}
+		return sequence;
+	}
 
+	public Integer Binary_To_Decimal(String sequence) {
+		int count = sequence.length();
+		sequence = validBinaryFormat(count, sequence);
+		char[] seqChar = sequence.toCharArray();
+		System.out.println(seqChar.length);
+		Integer decimalValue = 0;
+		int power = 0;
+		for (int i = seqChar.length - 1; i > 0; i--) {
+			if (seqChar[i] == '1') {
+				decimalValue += (int) Math.pow(2, power);
+			}
+			power++;
+		}
+		return decimalValue;
 	}
 
 	public void Binary_To_Hexadecimal() {
-		
+
 	}
 
 	public void Binary_To_Octal() {
